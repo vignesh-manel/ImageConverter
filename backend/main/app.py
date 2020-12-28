@@ -1,17 +1,8 @@
-from flask import Flask, request, Response
-from db_config import initialize_db
-from models.users import User
-import os
-from dotenv import load_dotenv
-load_dotenv('.flaskenv')
+from flask import request, Response
+from main import create_app
+from .controller.register_user import register_user
 
-app = Flask(__name__)
-
-DB_URI = os.environ.get("MONGODB_URL")
-
-app.config['MONGODB_HOST'] = DB_URI
-
-initialize_db(app)
+app = create_app()
 
 @app.route('/')
 def index():
@@ -19,10 +10,7 @@ def index():
 
 @app.route('/users/register', methods=['POST'])
 def register():
-    body = request.get_json()
-    user = User(**body).save()
-    id = user.id
-    return {"id":str(id)},201
+    return register_user(request)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=False)

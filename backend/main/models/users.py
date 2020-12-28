@@ -1,4 +1,4 @@
-from db_config import db
+from .. import db
 
 class User(db.Document):
     email = db.EmailField(required=True, unique=True)
