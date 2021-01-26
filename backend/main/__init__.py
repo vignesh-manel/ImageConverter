@@ -3,6 +3,7 @@ from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+from flask_cors import CORS
 load_dotenv('.flaskenv')
 
 db = MongoEngine()
@@ -10,6 +11,7 @@ bcrypt = Bcrypt()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     DB_URI = os.environ.get("MONGODB_URL")
     SECERET_KEY = os.environ.get("SECRET_KEY")
